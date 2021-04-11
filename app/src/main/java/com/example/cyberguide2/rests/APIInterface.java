@@ -12,5 +12,5 @@ public interface APIInterface {
     @GET("everything")
     //query appended
 //    https://newsapi.org/v2/everything?language=en&q=cyberbullying
-    Call<ResponseModel> getLatestNews( @Query("apiKey") String apiKey,@Query("q") String keyword,@Query("language") String language,@Query("page") String page);
+    Call<ResponseModel> getLatestNews( @Query("apiKey") String apiKey,@Query("q") String keyword,@Query("language") String language,@Query("page") String page,@Query("sortBy")String sortBy);
 }

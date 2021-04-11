@@ -20,6 +20,7 @@ import com.example.cyberguide2.model.Article;
 import com.example.cyberguide2.model.ResponseModel;
 import com.example.cyberguide2.rests.APIInterface;
 import com.example.cyberguide2.rests.ApiClient;
+import com.example.cyberguide2.utils.ClickListener;
 import com.example.cyberguide2.utils.OnRecyclerViewItemClickListener;
 
 import java.util.List;
@@ -77,16 +78,12 @@ public class MainActivity extends AppCompatActivity implements OnRecyclerViewIte
                 android.R.color.holo_orange_dark,
                 android.R.color.holo_blue_dark);
 //        Java runnable is an interface used to execute code on a concurrent thread
-        mSwipeRefreshLayout.post(new Runnable() {
+        mSwipeRefreshLayout.post(() -> {
 
-            @Override
-            public void run() {
+            mSwipeRefreshLayout.setRefreshing(true);
 
-                mSwipeRefreshLayout.setRefreshing(true);
-
-                // Fetching data from server
-                loadRecyclerViewData();
-            }
+            // Fetching data from server
+            loadRecyclerViewData();
         });
 
 
@@ -104,7 +101,7 @@ public class MainActivity extends AppCompatActivity implements OnRecyclerViewIte
 
         final APIInterface apiService = ApiClient.getClient().create(APIInterface.class);
         //send the request
-        Call<ResponseModel> call = apiService.getLatestNews(API_KEY, "CYBERBULLYING NOT JAPANESE", "en", String.valueOf(count));
+        Call<ResponseModel> call = apiService.getLatestNews(API_KEY, "CYBERBULLYING NOT JAPANESE", "en", String.valueOf(count),"publishedAt");
         count++;
         if(count==6)
         {
@@ -122,7 +119,18 @@ public class MainActivity extends AppCompatActivity implements OnRecyclerViewIte
 
                     if (articleList.size() > 0) {
 //                        making a View for each item in the data set.
-                        final MainArticleAdapter mainArticleAdapter = new MainArticleAdapter(getApplicationContext(), articleList);
+                        final MainArticleAdapter mainArticleAdapter = new MainArticleAdapter(getApplicationContext(), articleList,new ClickListener() {
+                            @Override public void onPositionClicked(int position) {
+                                // callback performed on click
+                            }
+
+                            @Override
+                            public void onLongClicked(int position) {
+
+                            }
+
+
+                        });
                         mainArticleAdapter.setOnRecyclerViewItemClickListener(MainActivity.this);
                         mainRecycler.setAdapter(mainArticleAdapter);
 
@@ -138,8 +146,7 @@ public class MainActivity extends AppCompatActivity implements OnRecyclerViewIte
             }
         });
 
-;
-}
+    }
     @SuppressLint("NonConstantResourceId")
     @Override
     public void onItemClick(int position, View view) {
@@ -153,9 +160,8 @@ public class MainActivity extends AppCompatActivity implements OnRecyclerViewIte
                 webActivity.putExtra("url", article.getUrl());
                 startActivity(webActivity);
             }
-            else {
-//                Log.d("sjjikrsdfgggggggbhc","medddd");
-            }
+
+
         }
     }
 
