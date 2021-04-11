@@ -4,7 +4,17 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="5dp">
+    android:layout_margin="5dp"
+    android:orientation="vertical">
+    <TextView
+    android:layout_width="match_parent"
+    android:text="@string/today_s_headlines"
+    android:fontFamily="@font/poppinsbold"
+
+    android:layout_marginStart="10dp"
+    android:textSize="15sp"
+    android:layout_marginTop="10dp"
+    android:layout_height="30dp"/>
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipe_container"
         android:layout_width="match_parent"
